@@ -1,18 +1,25 @@
 package com.example.jc321013.weatherapp;
 
 import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
+import android.content.SharedPreferences;
 
-/**
- * Created by jc321013 on 4/04/2017.
- */
+public class CityPreference {
 
-class CityPreference {
-    private Object city;
+    SharedPreferences prefs;
 
-    public CityPreference(FragmentActivity activity) {
+    public CityPreference(Activity activity){
+        prefs = activity.getPreferences(Activity.MODE_PRIVATE);
     }
 
-    public Object getCity() {
-        return city;
+    // If the user has not chosen a city yet, return
+    // Sydney as the default city
+    String getCity(){
+        return prefs.getString("city", "Sydney, AU");
     }
+
+    void setCity(String city){
+        prefs.edit().putString("city", city).apply();
+    }
+
 }
