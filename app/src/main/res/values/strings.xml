@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="action_settings">Settings</string>
+    <string name ="open_maps_id">11111</string>
+    <string name="weather_not_found">weather not found</string>
+    <string name="open_weather_maps_app_id" />
+</resources>
