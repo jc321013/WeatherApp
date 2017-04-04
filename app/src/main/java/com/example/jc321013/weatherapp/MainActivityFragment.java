@@ -56,10 +56,10 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
-        updateWeatherData(new CityPreference(getActivity()).getCity());
+        WeatherDataUpdate(new CityPreference(getActivity()).getCity());
     }
 
-    private void updateWeatherData(final Object city) {
+    private void WeatherDataUpdate(final Object city) {
         new Thread() {
             public void run() {
                 final JSONObject json = RemoteFetch.getJSON(getActivity(), city);
@@ -74,7 +74,7 @@ public class MainActivityFragment extends Fragment {
                 } else {
                     handler.post(new Runnable() {
                         public void run() {
-                            renderWeather(json);
+                            showWeather(json);
                         }
                     });
                 }
@@ -83,7 +83,7 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    private void renderWeather(JSONObject json) {
+    private void showWeather(JSONObject json) {
         try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
                     ", " +
@@ -103,7 +103,7 @@ public class MainActivityFragment extends Fragment {
             String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
             updatedField.setText("Last update: " + updatedOn);
 
-            setWeatherIcon(details.getInt("id"),
+            setIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);
 
@@ -114,7 +114,7 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    private void setWeatherIcon(int actualId, long sunrise, long sunset) {
+    private void setIcon(int actualId, long sunrise, long sunset) {
         int id = actualId / 100;
         String icon = "";
         if (actualId == 800) {
